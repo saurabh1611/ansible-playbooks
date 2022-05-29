@@ -7,19 +7,14 @@
       - name: printing target OS
         debug:
           msg: "Running on {{ ansible_facts['distribution'] }}"
-        delegate_to: localhost
 
       - block:
+          - name: Install Apache
+            yum:
+              name: httpd
+              state: latest
+              
           - name: Starting apache
             service:
               name: httpd
               state: started
-            notify: install apache
-            tags: apache_task
-            delegate_to: localhost
-
-    handlers:
-      - name: install apache
-        yum:
-          name: httpd
-          state: latest
